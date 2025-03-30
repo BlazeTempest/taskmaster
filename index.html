@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Scheduler</title>
+    <!-- Link Font Awesome (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class=""> <!-- Theme class added dynamically -->
+    <header>
+        <h1 class="header-title"><i class="fas fa-cogs"></i> Smart Task Scheduler</h1>
+
+        <!-- Pomodoro Timer in Header -->
+        <div id="pomodoro-header-container">
+            <span id="pomodoro-mode">Work</span>
+            <span id="pomodoro-time-display">25:00</span>
+            <div id="pomodoro-header-controls">
+                 <button id="pomodoro-start-pause" class="icon-button small-pomodoro-btn" title="Start/Pause Timer"><i class="fas fa-play"></i></button>
+                 <button id="pomodoro-reset" class="icon-button small-pomodoro-btn" title="Reset Timer"><i class="fas fa-redo"></i></button>
+                 <button id="pomodoro-skip" class="icon-button small-pomodoro-btn" title="Skip Session"><i class="fas fa-forward"></i></button>
+            </div>
+        </div>
+
+        <div class="controls header-controls">
+            <!-- Animated Theme Toggle -->
+            <button id="theme-toggle" class="theme-toggle-button icon-button" title="Toggle Theme">
+                <span class="toggle-icon-container">
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                </span>
+            </button>
+             <!-- Calendar View Toggle -->
+            <button id="calendar-toggle-btn" class="icon-button" title="Show Calendar">
+                <i class="fas fa-calendar-day"></i>
+            </button>
+            <!-- Help Button -->
+            <button id="help-btn" class="icon-button" title="How to Use">
+                <i class="fas fa-question-circle"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Make Add/Edit section collapsible -->
+        <section id="task-input-section" class="collapsible-section">
+            <h2 class="collapsible-header">
+                <span><i class="fas fa-plus-circle"></i> Add / Edit Task</span>
+                <button class="collapse-toggle-btn" title="Toggle Section"><i class="fas fa-chevron-up"></i></button>
+            </h2>
+            <div class="collapsible-content">
+                <form id="add-task-form">
+                    <input type="text" id="task-title" placeholder="Task Title" required>
+                    <textarea id="task-description" placeholder="Description (Optional)"></textarea>
+                    <input type="date" id="task-due-date" title="Due Date" required>
+                    <select id="task-priority" title="Priority" required>
+                        <option value="1">High</option>
+                        <option value="2" selected>Medium</option>
+                        <option value="3">Low</option>
+                    </select>
+                    <button type="submit" id="submit-task-btn">
+                         <i class="fas fa-plus"></i> <span class="btn-text">Add Task</span>
+                    </button>
+                    <button type="button" id="cancel-edit-btn" style="display: none; background-color: grey;">
+                        <i class="fas fa-times"></i> <span class="btn-text">Cancel Edit</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Pomodoro Timer Section - Removed from here -->
+
+        <section id="task-display-section" class="collapsible-section"> <!-- Add class -->
+            <h2 class="collapsible-header"> <!-- Add class -->
+                <span><i class="fas fa-list-check"></i> Scheduled Tasks</span>
+                <button class="collapse-toggle-btn" title="Toggle Section"><i class="fas fa-chevron-up"></i></button> <!-- Add button -->
+            </h2>
+            <div class="collapsible-content"> <!-- Add content wrapper -->
+                <div id="task-views">
+                    <div id="scheduled-list-view" class="task-view active">
+                        <ul id="scheduled-task-list">
+                        <li class="placeholder">No tasks scheduled yet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!-- Close collapsible-content -->
+        </section>
+
+        <!-- Calendar View Modal (Initially Hidden) -->
+        <div id="calendar-modal" class="modal hidden">
+             <div class="modal-content large"> <!-- Add 'large' class for potentially wider modal -->
+                 <button id="close-calendar-modal" class="close-button">&times;</button>
+                 <h2><i class="fas fa-calendar-alt"></i> Task Calendar</h2>
+                 <div id="calendar-grid">
+                     <p class="placeholder">No tasks with deadlines to display.</p>
+                 </div>
+             </div>
+        </div>
+
+        <!-- Help Modal (Initially Hidden) -->
+        <div id="help-modal" class="modal hidden">
+            <div class="modal-content">
+                <button id="close-help-modal" class="close-button">&times;</button>
+                <h2>How to Use Smart Task Scheduler V2</h2>
+                <p><strong>Adding Tasks:</strong> Fill in the title, select a deadline (required), and choose a priority (1=High, 3=Low). Click "Add Task".</p>
+                <p><strong>Scheduling:</strong> Tasks are automatically sorted by the earliest deadline first, then by the highest priority.</p>
+                <p><strong>Completing Tasks:</strong> Click the checkmark (<i class="fas fa-check-circle"></i>) on the *first* task in the list to mark it complete and remove it.</p>
+                <p><strong>Editing/Deleting:</strong> Use the pencil (<i class="fas fa-edit"></i>) or trash (<i class="fas fa-trash-alt"></i>) icons on any task.</p>
+                <p><strong>Pomodoro Timer:</strong> Use the timer in the header to manage work/break sessions. Click Start/Pause (<i class="fas fa-play"></i>/<i class="fas fa-pause"></i>), Reset (<i class="fas fa-redo"></i>), or Skip (<i class="fas fa-forward"></i>).</p>
+                <p><strong>Calendar View:</strong> Click the calendar icon (<i class="fas fa-calendar-day"></i>) in the header to see tasks grouped by due date in a popup.</p>
+                <p><strong>Theme:</strong> Click the sun/moon icon in the header to toggle between light and dark modes.</p>
+                <p><strong>Collapse Section:</strong> Click the arrow (<i class="fas fa-chevron-up"></i>/<i class="fas fa-chevron-down"></i>) on the "Add / Edit Task" header to show/hide the form.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Smart Task Scheduler V2</p>
+    </footer>
+
+    <!-- Include Data Structure Scripts FIRST -->
+    <script src="data_structures/queue.js"></script>
+    <script src="data_structures/bst.js"></script>
+    <!-- Include Main Script LAST -->
+    <script src="script.js"></script>
+</body>
+</html>
